@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Travix Portal – PoC by Binanjay Dwibedee</title>
+  <style>
+    :root { --main:#0078d4; --main-dark:#005fa3; font-family:Arial,Helvetica,sans-serif; }
+    body  { background:#eef2f3; display:flex; justify-content:center; align-items:center; height:100vh; }
+    .card { background:#fff; padding:40px 30px; width:330px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,.1); }
+    h2    { text-align:center; margin-bottom:20px; }
+    input,button{ width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px; }
+    button{ background:var(--main); color:#fff; border:none; cursor:pointer; }
+    button:hover{ background:var(--main-dark); }
+    .link { color:var(--main); cursor:pointer; font-size:13px; text-align:center; display:block; margin-top:10px; }
+    .notice{ font-size:12px; color:red; text-align:center; margin-top:14px; }
+    .credit { font-size:11px; color:#777; text-align:center; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <!-- Login Form -->
+    <form id="loginForm">
+      <h2>Travix Login</h2>
+      <input id="loginUser"  type="text"     placeholder="Username" required />
+      <input id="loginPass"  type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <span class="link" onclick="showRegister()">Need an account? Register</span>
+    </form>
+
+    <!-- Registration Form -->
+    <form id="regForm" style="display:none">
+      <h2>Register</h2>
+      <input id="regUser" type="text"     placeholder="Choose Username" required />
+      <input id="regPass" type="password" placeholder="Choose Password" required />
+      <button type="submit">Register</button>
+      <span class="link" onclick="showLogin()">Have an account? Log in</span>
+    </form>
+
+    <p class="notice">* This is a harmless PoC – no data leaves your browser *</p>
+    <p class="credit">SubDomain PoC created by Binanjay Dwibedee</p>
+  </div>
+
+  <script>
+    const users = {};
+    function showRegister() { loginForm.style.display = 'none'; regForm.style.display = 'block'; }
+    function showLogin()    { regForm.style.display   = 'none'; loginForm.style.display = 'block'; }
+
+    regForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const u = regUser.value.trim();
+      const p = regPass.value;
+      if (users[u]) {
+        alert('Username already registered.');
+      } else {
+        users[u] = p;
+        alert('Registration successful!');
+        showLogin();
+      }
+    });
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const u = loginUser.value.trim();
+      const p = loginPass.value;
+      if (users[u] && users[u] === p) {
+        alert('Login successful – demonstration complete.');
+      } else {
+        alert('Invalid credentials.');
+      }
+    });
+  </script>
+</body>
+</html>
